@@ -5,6 +5,9 @@
 </template>
 
 <script>
+
+import { v4 as uuid } from 'uuid';
+
 export default {
   name: "TodoHeader",
   props: ['addTodo'],
@@ -18,9 +21,9 @@ export default {
     add(){
       // 如果為空，則結束
       if (!this.inputValue) return;
-      // 每新增一筆 id + 1
-      this.todoId = this.todoId + 1;
-      const todoItem = {id: this.todoId, title: this.inputValue, done:false}
+      // ID設為UUID
+      const uniqueId = uuid();
+      const todoItem = {id: uniqueId, title: this.inputValue, done:false}
       this.addTodo(todoItem);
       this.inputValue = '';
     }
@@ -32,7 +35,6 @@ export default {
 <style scoped>
   /*header*/
 .todo-header input {
-  width: 560px;
   height: 28px;
   font-size: 14px;
   border: 1px solid #ccc;
