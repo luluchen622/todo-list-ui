@@ -1,10 +1,10 @@
 <template>
-    <li>
-      <b-col sm="1" class="d-inline-block pl-3">
-        <b-form-checkbox class="px-2" :checked="item.done" @change="handleCheck(item.id)"/>
+    <li @click="handleCheck(item.id)">
+      <b-col sm="1" class="d-inline-block pl-3 pt-2">
+        <b-form-checkbox class="" :checked="item.done"/>
       </b-col>
-      <b-col sm="9" class="d-inline-block mt-2 mb-2">
-        <span>{{item.title}}</span>
+      <b-col sm="9" class="d-inline-block" >
+          <span>{{item.title}}</span>
       </b-col>
       <b-col sm="2" class="d-inline-block">
         <button class="btn btn-danger" @click="handleDelete(item.id)">删除</button>
@@ -35,15 +35,18 @@ export default {
 </script>
 
 <style scoped>
+  .pt-2{
+    padding-top:10px;
+  }
   .pl-3 {
     padding-left: 15px;
   }
   li {
     list-style: none;
     border-bottom: 1px solid #ddd;
+    height: 40px;
   }
   li button {
-    float: right;
     display: none;
   }
   li:before {
@@ -54,8 +57,6 @@ export default {
   }
   li:hover{
     background: #ddd;
-    height: 40px;
-    line-height: 25px;
   }
   li:hover button{
     display: block;
