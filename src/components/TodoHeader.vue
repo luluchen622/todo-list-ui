@@ -1,5 +1,5 @@
 <template>
-  <div class="todo-header">
+  <div class="todo-header mb-3 mt-1">
     <b-form-input type="text" placeholder="請輸入todo，輸入完按Enter" v-model="inputValue" @keyup.enter="add"/>
   </div>
 </template>
