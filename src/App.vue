@@ -74,6 +74,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  font-size: 16px;
 }
 .content {
   margin-left: 30px;
