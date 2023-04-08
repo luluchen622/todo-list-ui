@@ -1,8 +1,8 @@
-<template>
+<template id="app">
   <div class="content">
     <TodoHeader :addTodo="addTodo"/>
     <TodoList :todoItems="todoItems" :checkTodo="checkTodo" :deleteTodo="deleteTodo"/>
-    <TodoFooter :todoItems="todoItems"/>
+    <TodoFooter :todoItems="todoItems" @changeCheckAllTodo="changeCheckAllTodo" @deleteDoneTodoItems="deleteDoneTodoItems"/>
   </div>
 </template>
 
@@ -10,6 +10,7 @@
 import TodoHeader from "@/components/TodoHeader";
 import TodoList from "@/components/TodoList";
 import TodoFooter from "@/components/TodoFooter";
+
 
 export default {
   name: 'App',
@@ -21,11 +22,7 @@ export default {
   data() {
     return{
       // 所有待辦事項
-      todoItems:[
-        {id: '001', title: '123', done:true},
-        {id: '002', title: '456', done:false},
-        {id: '003', title: '789', done:true}
-      ]
+      todoItems: JSON.parse(localStorage.getItem("todoItems")) || []
     }
   },
   methods: {
@@ -44,6 +41,27 @@ export default {
     deleteTodo(id){
       this.todoItems = this.todoItems.filter((todo) => todo.id !== id);
     },
+    // 全選或全不選 todo-list
+    changeCheckAllTodo(done){
+      this.todoItems.map(item => item.done = done);
+    },
+    // 刪除已勾選之todo-list
+    deleteDoneTodoItems(){
+      this.todoItems = this.todoItems.filter((todo) => !todo.done);
+    },
+    // 儲存至localStorage
+    saveTodoItems(){
+      localStorage.setItem("todoItems", JSON.stringify(this.todoItems));
+    },
+  },
+  watch:{
+    // 偵測todo-list項目是否有異動，若有新增或刪除會重新儲存到localStorage
+    todoItems: {
+      deep: true,
+      handler() {
+        this.saveTodoItems();
+      }
+    }
   }
 }
 </script>
@@ -60,5 +78,8 @@ export default {
 .content {
   margin-left: 30px;
   width: 560px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  padding: 10px;
 }
 </style>
