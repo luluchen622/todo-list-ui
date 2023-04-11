@@ -6,6 +6,7 @@
         :item="item"
         :checkTodo = "checkTodo"
         :deleteTodo = "deleteTodo"
+        :editTodo = "editTodo"
     />
   </ul>
 </template>
@@ -19,7 +20,7 @@ export default {
     TodoItem
   },
   // 從父容器App.vue 接收 todoItems，傳給TodoItem逐筆遍歷出來
-  props:['todoItems', 'checkTodo', 'deleteTodo'],
+  props:['todoItems', 'checkTodo', 'deleteTodo', 'editTodo'],
   data() {
     return {
     }

@@ -15,7 +15,8 @@
     "core-js": "^3.8.3",
     "jquery": "^3.6.4",
     "uuid": "^9.0.0",
-    "vue": "^3.2.47"
+    "vue": "^3.2.47",
+    "vue-jquery": "^1.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

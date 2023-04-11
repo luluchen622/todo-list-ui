@@ -1,7 +1,7 @@
 <template id="app">
   <div class="content">
     <TodoHeader :addTodo="addTodo"/>
-    <TodoList :todoItems="todoItems" :checkTodo="checkTodo" :deleteTodo="deleteTodo"/>
+    <TodoList :todoItems="todoItems" :checkTodo="checkTodo" :deleteTodo="deleteTodo" :editTodo="editTodo"/>
     <TodoFooter :todoItems="todoItems" @changeCheckAllTodo="changeCheckAllTodo" @deleteDoneTodoItems="deleteDoneTodoItems"/>
   </div>
 </template>
@@ -41,7 +41,16 @@ export default {
     deleteTodo(id){
       this.todoItems = this.todoItems.filter((todo) => todo.id !== id);
     },
-    // 全選或全不選 todo-list
+    // 編輯該項todo
+    editTodo(id, title){
+      console.log("aaa")
+      this.todoItems.map((todo) => {
+        if (todo.id === id) {
+          todo.title = title;
+        }
+      });
+    },
+    // 全選或全不選todo-list
     changeCheckAllTodo(done){
       this.todoItems.map(item => item.done = done);
     },
@@ -71,7 +80,7 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /*text-align: center;*/
   color: #2c3e50;
   margin-top: 60px;
   font-size: 16px;

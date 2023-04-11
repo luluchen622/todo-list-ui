@@ -1,21 +1,31 @@
 <template>
-    <li @click="handleCheck(item.id)">
+    <li>
       <b-col sm="1" class="d-inline-block pl-3 pt-2">
-        <b-form-checkbox class="" :checked="item.done"/>
+        <b-form-checkbox :checked="item.done" @click="handleCheck(item.id)"/>
       </b-col>
-      <b-col sm="9" class="d-inline-block" >
-          <span>{{item.title}}</span>
+      <b-col sm="8" class="d-inline-block">
+        <span v-show="!item.isEdit" @click="handleCheck(item.id)">{{item.title}}</span>
+        <b-form-input
+            type="text"
+            v-show="item.isEdit"
+            :value="item.title"
+            @blur="doEditTodo(item, $event)"
+            ref="inputTitle"
+        />
       </b-col>
-      <b-col sm="2" class="d-inline-block">
+      <b-col sm="3" class="d-inline-block">
+        <button class="btn btn-success" @click="handleEdit(item)">編輯</button>
         <button class="btn btn-danger" @click="handleDelete(item.id)">删除</button>
       </b-col>
     </li>
 </template>
 
 <script>
+
+
 export default {
   name: "TodoItem",
-  props:['item', 'checkTodo', 'deleteTodo'],
+  props:['item', 'checkTodo', 'deleteTodo', 'editTodo'],
   data() {
     return {
     }
@@ -29,6 +39,24 @@ export default {
     // 刪除該項todo
     handleDelete(id){
       this.deleteTodo(id);
+    },
+    // 編輯該項todo
+    handleEdit(item){
+      item.isEdit = true;
+      // 點選編輯後就自動觸發focus事件，讓不需點選input，而點選其他區域也能取消編輯狀況
+      this.$nextTick(() => {
+        this.$refs.inputTitle.focus()
+      })
+    },
+    // 執行編輯
+    doEditTodo(item, e){
+      item.isEdit = false;
+      if(!e.target.value){
+        return alert("請勿空白");
+      // title有異動才執行編輯
+      } else if(e.target.value !== item.title){
+        this.editTodo(item.id, e.target.value);
+      }
     },
   },
 }
@@ -59,6 +87,6 @@ export default {
     background: #ddd;
   }
   li:hover button{
-    display: block;
+    display: inline-block;
   }
 </style>
