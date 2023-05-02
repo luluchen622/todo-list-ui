@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import TodoItem from "@/components/TodoItem";
+import TodoItem from "@/vue2/components/TodoItem";
 
 export default {
   name: "TodoList",

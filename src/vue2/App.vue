@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import TodoHeader from "@/components/TodoHeader";
-import TodoList from "@/components/TodoList";
-import TodoFooter from "@/components/TodoFooter";
+import TodoHeader from "@/vue2/components/TodoHeader";
+import TodoList from "@/vue2/components/TodoList";
+import TodoFooter from "@/vue2/components/TodoFooter";
 
 
 export default {
@@ -31,7 +31,7 @@ export default {
       this.todoItems.unshift(todoItem);
     },
     // 檢核todo勾選狀態，改變TodoItem
-    checkTodo(id){
+      checkTodo(id){
       this.todoItems.forEach((todo) =>{
         // 找到勾選的那個todo項目，改變勾選狀態
         if(todo.id === id) todo.done = !todo.done;
