@@ -1,7 +1,7 @@
 <template>
   <ul class="todo-main">
     <TodoItem
-        v-for="item in todoItems"
+        v-for="item in todos"
         :key="item.id"
         :item="item"
         :checkTodo = "checkTodo"
@@ -13,7 +13,6 @@
 
 <script>
 import TodoItem from "@/vue3/components/TodoItem";
-import {inject} from "vue";
 
 export default {
   name: "TodoList",
@@ -21,14 +20,7 @@ export default {
     TodoItem
   },
   // 從父容器App.vue 接收 todoItems，傳給TodoItem逐筆遍歷出來
-  props:['checkTodo', 'deleteTodo', 'editTodo'],
-  // 從父容器App.vue 接收 todoItems，傳給TodoItem逐筆遍歷出來
-  setup(){
-    const todoItems = inject('todoItems');
-    return{
-      todoItems
-    }
-  }
+  props:['todos', 'checkTodo', 'deleteTodo', 'editTodo'],
 
 }
 </script>

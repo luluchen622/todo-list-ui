@@ -27,19 +27,18 @@ import {nextTick, ref} from "vue";
 
 export default {
   name: "TodoItem",
-  props:['item'],
-  setup(prop, context){
+  props:['item', 'checkTodo', 'deleteTodo', 'editTodo'],
+  setup(props){
     let inputTitle = ref(null)
 
     // checkBox勾選後觸發，傳遞id
     function handleCheck(id){
-      console.log("id",id);
       // 使用父元素App.vue的 checkTodo方法，改變位於父元素的todoItems中該項todo 的 checked的狀態
-      context.emit("checkTodo",id);
+      props.checkTodo(id);
     }
     // 刪除該項todo
     function handleDelete(id){
-      context.emit("deleteTodo",id);
+      props.deleteTodo(id);
     }
     // 編輯該項todo
     function handleEdit(item){
@@ -56,7 +55,7 @@ export default {
         return alert("請勿空白");
         // title有異動才執行編輯
       } else if(e.target.value !== item.title){
-        context.emit("editTodo",item.id, e.target.value);
+        props.editTodo(item.id, e.target.value);
       }
     }
 

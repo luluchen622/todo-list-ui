@@ -7,28 +7,27 @@
 <script>
 
 import { v4 as uuid } from 'uuid';
-import {inject} from "vue";
+import {ref} from "vue";
 
 export default {
   name: "TodoHeader",
-  setup(){
-    const addTodo = inject('addTodo');
-    let inputValue = '';
+  props:['addTodo'],
+  setup(props){
+    let inputValue = ref('');
 
     function add(){
       // 如果為空，則結束
-      if (!inputValue) return;
+      if (!inputValue.value) return;
       // ID設為UUID
       const uniqueId = uuid();
-      const todoItem = {id: uniqueId, title: inputValue, done:false}
-      addTodo(todoItem);
-      inputValue = '';
+      const todoItem = {id: uniqueId, title: inputValue.value, done:false}
+      props.addTodo(todoItem);
+      inputValue.value = '';
     }
 
     return {
       inputValue,
-      add,
-      addTodo
+      add
     }
 
   }

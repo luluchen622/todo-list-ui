@@ -2,8 +2,8 @@
   <div class="content">
     <Demo/>
     <TodoHeader :addTodo="addTodo"/>
-    <TodoList :checkTodo="checkTodo" :deleteTodo="deleteTodo" :editTodo="editTodo"/>
-    <TodoFooter @changeCheckAllTodo="changeCheckAllTodo" @deleteDoneTodoItems="deleteDoneTodoItems"/>
+    <TodoList :todos="todos" :checkTodo="checkTodo" :deleteTodo="deleteTodo" :editTodo="editTodo"/>
+    <TodoFooter :todos="todos" @changeCheckAllTodo="changeCheckAllTodo" @deleteDoneTodoItems="deleteDoneTodoItems"/>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ import TodoHeader from "@/vue3/components/TodoHeader";
 import TodoList from "@/vue3/components/TodoList";
 import TodoFooter from "@/vue3/components/TodoFooter";
 import Demo from "@/vue3/components/Demo";
-import {provide, reactive, toRefs, watch} from "vue";
+import {onMounted, reactive, toRefs, watch} from "vue";
 
 
 export default {
@@ -25,27 +25,34 @@ export default {
   },
   setup() {
     // 所有待辦事項
-    let todoItems = reactive(JSON.parse(localStorage.getItem("todoItems")) || [])
+    let todoItems = reactive({
+      todos: []
+    })
+
+    // 頁面加載完 再讀取
+    onMounted(() => {
+      todoItems.todos = JSON.parse(localStorage.getItem("todoItems")) || [];
+    })
 
     // Header 新增 todo時，加至todoItems第一筆，並傳給 TodoList
     function addTodo(todoItem){
-      todoItems.unshift(todoItem);
+      todoItems.todos.unshift(todoItem);
     }
     // 檢核todo勾選狀態，改變TodoItem
     function checkTodo(id){
       console.log("checkTodo",id)
-      todoItems.forEach((todo) =>{
+      todoItems.todos.forEach((todo) =>{
         // 找到勾選的那個todo項目，改變勾選狀態
         if(todo.id === id) todo.done = !todo.done;
       })
     }
     // 刪除該項todo
     function deleteTodo(id){
-      todoItems = todoItems.filter((todo) => todo.id !== id);
+      todoItems.todos = todoItems.todos.filter((todo) => todo.id !== id);
     }
     // 編輯該項todo
     function editTodo(id, title){
-      todoItems.map((todo) => {
+      todoItems.todos.map((todo) => {
         if (todo.id === id) {
           todo.title = title;
         }
@@ -54,23 +61,22 @@ export default {
 
     // 全選或全不選todo-list
     function changeCheckAllTodo(done){
-       console.log("done",done)
-      todoItems.map(item => item.done = done);
+      todoItems.todos.map(item => item.done = done);
     }
     // 刪除已勾選之todo-list
     function deleteDoneTodoItems(){
-      todoItems = todoItems.filter((todo) => !todo.done);
+      todoItems.todos = todoItems.todos.filter((todo) => !todo.done);
     }
     // 儲存至localStorage
-    function saveTodoItems(){
-      localStorage.setItem("todoItems", JSON.stringify(todoItems));
+    function saveTodoItems(value){
+      localStorage.setItem("todoItems", JSON.stringify(value));
     }
     // 偵測todo-list項目是否有異動，若有新增或刪除會重新儲存到localStorage
-    watch(todoItems, () => {
-      saveTodoItems();
-    })
+    // watch(() => todoItems.todos, (value) => {
+    //   saveTodoItems(value);
+    // },{deep: true})
 
-    provide('todoItems',todoItems)
+    watch(() => todoItems.todos, saveTodoItems, {deep: true})
 
     return {
       ...toRefs(todoItems),
