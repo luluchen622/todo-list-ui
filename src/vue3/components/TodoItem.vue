@@ -45,7 +45,7 @@ export default {
       item.isEdit = true;
       // 點選編輯後就自動觸發focus事件，讓不需點選input，而點選其他區域也能取消編輯狀況
       nextTick(() => {
-        ref.inputTitle.value.focus()
+        inputTitle.value.focus()
       })
     }
     // 執行編輯

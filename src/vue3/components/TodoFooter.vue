@@ -20,15 +20,19 @@ export default {
   name: "TodoFooter",
   props: ['todos'],
   setup(props, context){
+
+    // 計算todo總數
     let total = computed(() => {
       return props.todos.length;
     })
-console.log("props.todos",props.todos);
+
+    // 計算已完成todo總數
     let doneTotal = computed(() => {
       // 遞迴加總，判斷每個checkbox，有勾選+1、沒勾選+0
       return props.todos.reduce((pre, todo) => pre + (todo.done ? 1 : 0), 0);
     })
 
+    // 勾選全部
     let isAll = computed({
       get(){
         return doneTotal.value === total.value && total.value > 0;

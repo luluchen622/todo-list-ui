@@ -40,7 +40,6 @@ export default {
     }
     // 檢核todo勾選狀態，改變TodoItem
     function checkTodo(id){
-      console.log("checkTodo",id)
       todoItems.todos.forEach((todo) =>{
         // 找到勾選的那個todo項目，改變勾選狀態
         if(todo.id === id) todo.done = !todo.done;
@@ -76,6 +75,7 @@ export default {
     //   saveTodoItems(value);
     // },{deep: true})
 
+    // 偵測todo-list項目是否有異動，若有新增或刪除會重新儲存到localStorage
     watch(() => todoItems.todos, saveTodoItems, {deep: true})
 
     return {
